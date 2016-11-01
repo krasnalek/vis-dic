@@ -1,0 +1,6 @@
+﻿namespace Wordnet
+{
+    class Engine
+    {
+    }
+}
