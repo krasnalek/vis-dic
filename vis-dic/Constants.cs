@@ -14,6 +14,8 @@
         public const string Usage = "USAGE";
         public const string Definition = "Def";
         public const string PartOfSpeech = "POS";
+        public const string Data = "DATA";
+
     }
 
     public static class Types
@@ -26,20 +28,29 @@
         private enum ILRTypes
         {
             //zawężenie, czyli kwiat dla rośliny to Hiponim
-            Hiponimia,
+            hiponimia,
             //Uogólnienie, czyli człowiek dla kobieta to Hiperonim
-            Hypernym,
+            hypernym,
             //Hiper_PWN-plWN - hiperonim w Princeton wordnet
             Hiper_PWN,
             //Hipo_PWN-plWN - hiponim w Princeton wordnet
             Hipo_PWN
         }
 
+        public const string Source_PLWNID = "plwnid";
+        public const string Source_PNID = "pnid";
     }
 
     public static class Messages
     {
         public const string DirectoryNotChosen = "Please choose the directory!";
         public const string ErrorFound = "There is an error ";
+        public const string InvalidWord = "Please enter valid word!";
+        public const string NoNumberFound = @"No such number\word found - please provide valid number.";
+    }
+
+    public static class Paths
+    {
+        public const string DefaultOutputPath = "C:\\Temp\\mergedWordnet.xml";
     }
 }

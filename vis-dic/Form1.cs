@@ -8,10 +8,11 @@ namespace Wordnet
 {
     public sealed partial class Form1 : Form
     {
-        private string _firstFile;
-        private XDocument _doc = new XDocument();
-        private string _secondFile;
-        private XDocument _doc2 = new XDocument();
+        public string _firstFile;
+        public XDocument _doc = new XDocument();
+        public string _secondFile;
+        public XDocument _doc2 = new XDocument();
+
         //private string SecondFile;
         public Form1()
         {
@@ -23,7 +24,7 @@ namespace Wordnet
             OpenFile();
         }
 
-    
+
         /// <summary>
         /// Default XDocument is used for processing the document, because LINQ is available.
         /// </summary>
@@ -44,6 +45,7 @@ namespace Wordnet
             lblFileName2.Text = _secondFile;
             _doc2 = XDocument.Load(_secondFile);
         }
+
         private void btnSearchLiteral_Click(object sender, EventArgs e)
         {
             try
@@ -104,7 +106,7 @@ namespace Wordnet
         {
             try
             {
-            
+
                 if (!string.IsNullOrEmpty(txtLiteral.Text))
                 {
                     listResults.Items.Add("Searching " + txtLiteral.Text + "...");
@@ -152,9 +154,16 @@ namespace Wordnet
             OpenSecondFile();
         }
 
-        //TODO: 1. Połączenie - jeden format
-        //TODO: 2. Wizualizacjia do najwyższego node'a http://plwordnet.pwr.wroc.pl/wordnet/d0540a3e-0d16-11e6-bbf0-7a5d273e87eb
-        //TODO: 3. Angielski - tłumaczenia
-
+        private void btnCombine_Click(object sender, EventArgs e)
+        {
+            if (_doc != null && _doc2 != null)
+            {
+                Engine.CombineFiles(_doc2, _doc);
+            }
+            else
+            {
+                MessageBox.Show(Messages.DirectoryNotChosen);
+            }
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace Wordnet
             this.btnSearchNumber = new System.Windows.Forms.Button();
             this.lblFileName2 = new System.Windows.Forms.Label();
             this.btnDirectory2 = new System.Windows.Forms.Button();
+            this.btnCombine = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,17 +52,17 @@ namespace Wordnet
             this.btnDirectory1.Name = "btnDirectory1";
             this.btnDirectory1.Size = new System.Drawing.Size(164, 48);
             this.btnDirectory1.TabIndex = 0;
-            this.btnDirectory1.Text = "Choose PLWordnet file";
+            this.btnDirectory1.Text = "Choose 1st file";
             this.btnDirectory1.UseVisualStyleBackColor = true;
             this.btnDirectory1.Click += new System.EventHandler(this.btnDirectory_Click);
             // 
             // btnSearchLiteral
             // 
-            this.btnSearchLiteral.Location = new System.Drawing.Point(205, 153);
+            this.btnSearchLiteral.Location = new System.Drawing.Point(192, 153);
             this.btnSearchLiteral.Name = "btnSearchLiteral";
-            this.btnSearchLiteral.Size = new System.Drawing.Size(96, 37);
+            this.btnSearchLiteral.Size = new System.Drawing.Size(133, 37);
             this.btnSearchLiteral.TabIndex = 1;
-            this.btnSearchLiteral.Text = "Search word";
+            this.btnSearchLiteral.Text = "Search word (1)";
             this.btnSearchLiteral.UseVisualStyleBackColor = true;
             this.btnSearchLiteral.Click += new System.EventHandler(this.btnSearchLiteral_Click);
             // 
@@ -96,11 +97,11 @@ namespace Wordnet
             // 
             // btnSearchNumber
             // 
-            this.btnSearchNumber.Location = new System.Drawing.Point(307, 153);
+            this.btnSearchNumber.Location = new System.Drawing.Point(331, 153);
             this.btnSearchNumber.Name = "btnSearchNumber";
-            this.btnSearchNumber.Size = new System.Drawing.Size(130, 37);
+            this.btnSearchNumber.Size = new System.Drawing.Size(150, 37);
             this.btnSearchNumber.TabIndex = 5;
-            this.btnSearchNumber.Text = "Search number";
+            this.btnSearchNumber.Text = "Search number (1)";
             this.btnSearchNumber.UseVisualStyleBackColor = true;
             this.btnSearchNumber.Click += new System.EventHandler(this.btnSearchNumber_Click);
             // 
@@ -118,15 +119,26 @@ namespace Wordnet
             this.btnDirectory2.Name = "btnDirectory2";
             this.btnDirectory2.Size = new System.Drawing.Size(164, 48);
             this.btnDirectory2.TabIndex = 6;
-            this.btnDirectory2.Text = "Choose Polnet file";
+            this.btnDirectory2.Text = "Choose second file";
             this.btnDirectory2.UseVisualStyleBackColor = true;
             this.btnDirectory2.Click += new System.EventHandler(this.btnDirectory2_Click);
+            // 
+            // btnCombine
+            // 
+            this.btnCombine.Location = new System.Drawing.Point(514, 153);
+            this.btnCombine.Name = "btnCombine";
+            this.btnCombine.Size = new System.Drawing.Size(277, 37);
+            this.btnCombine.TabIndex = 8;
+            this.btnCombine.Text = "Combine";
+            this.btnCombine.UseVisualStyleBackColor = true;
+            this.btnCombine.Click += new System.EventHandler(this.btnCombine_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(803, 513);
+            this.Controls.Add(this.btnCombine);
             this.Controls.Add(this.lblFileName2);
             this.Controls.Add(this.btnDirectory2);
             this.Controls.Add(this.btnSearchNumber);
@@ -154,6 +166,7 @@ namespace Wordnet
         private Button btnSearchNumber;
         private Label lblFileName2;
         private Button btnDirectory2;
+        private Button btnCombine;
     }
 }
 
