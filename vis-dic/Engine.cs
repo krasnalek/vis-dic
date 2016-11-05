@@ -22,7 +22,6 @@ namespace Wordnet
                 notFoundNumbers.Clear();
                 var xml = new DATA();
                 var synsets = new List<Synset>();
-                var literals = new List<Literal>();
                 var idPlwn = string.Empty;
                 var sensePlwn = string.Empty;
 
@@ -31,6 +30,7 @@ namespace Wordnet
                     string idPn = element?.Descendants(Nodes.ID).First().Value;
                     string value = "...";
                     var irlList = new List<ILR>();
+                    var literals = new List<Literal>();
                     var xElementsIlr = element?.Descendants(Nodes.ILR);
                     if (xElementsIlr != null)
                     {
@@ -40,13 +40,12 @@ namespace Wordnet
                             type = ilr.Attribute("type")?.Value,
                             Value = ilr.FirstNode.ToString()
                         }));
-                    }
+                    }                    
                     var xElementsLiteral = element?.Descendants(Nodes.Literal);
                     if (xElementsLiteral == null) continue;
                     foreach (var literal in xElementsLiteral)
                     {
                         var searchingWord = literal.FirstNode.ToString();
-
                         List<string> numbers = SearchNumberBasedOnWord(bDoc, searchingWord);
                         if (numbers.Count > 0)
                         {
@@ -54,6 +53,18 @@ namespace Wordnet
                                 bDoc.Descendants(Nodes.Literal).Where(x => x.FirstNode.ToString() == searchingWord);
                             idPlwn = numbers.FirstOrDefault();
                             sensePlwn = theSameWord.Descendants(Nodes.Sense).First().Value;
+                            //TODO: Adding ILRNodes from PlWordnet
+                            //var xElementsIlrPlwn = bDoc.Root(synset)
+
+                            //if (xElementsIlrPlwn != null)
+                            //{
+                            //    irlList.AddRange(xElementsIlr.Select(ilr => new ILR()
+                            //    {
+                            //        source = Types.Source_PLWNID,
+                            //        type = ilr.Descendants(Nodes.ILRType).First().Value,
+                            //        Value = ilr.FirstNode.ToString()
+                            //    }));
+                            //}
                         }
                         string sensePn = literal.Attribute("sense")?.Value;
                         literals.Add(new Literal() { plwnsense = sensePlwn, pnsense = sensePn, Value = searchingWord });
