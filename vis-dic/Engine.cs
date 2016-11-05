@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
@@ -11,25 +12,82 @@ namespace Wordnet
 {
     public static class Engine
     {
+        private static List<string> notFoundWords = new List<string>();
+        private static List<string> notFoundNumbers = new List<string>();
         public static void CombineFiles(XDocument aDoc, XDocument bDoc)
         {
-            var xml = new DATA();
-            foreach (var element in aDoc.Descendants(Nodes.Synset))
+            try
             {
-                //TODO: tworzenie wspólnego obiektu
-            }
+                notFoundWords.Clear();
+                notFoundNumbers.Clear();
+                var xml = new DATA();
+                var synsets = new List<Synset>();
+                var literals = new List<Literal>();
+                var idPlwn = string.Empty;
+                var sensePlwn = string.Empty;
 
-            var list = (from word in aDoc.Descendants(Nodes.Synset)
-                        select new DATA
+                foreach (var element in aDoc.Descendants(Nodes.Synset))
+                {
+                    string idPn = element?.Descendants(Nodes.ID).First().Value;
+                    string value = "...";
+                    var irlList = new List<ILR>();
+                    var xElementsIlr = element?.Descendants(Nodes.ILR);
+                    if (xElementsIlr != null)
+                    {
+                        irlList.AddRange(xElementsIlr.Select(ilr => new ILR()
                         {
-                            SYNSET = new Synset[]
-                            {
-                                //TODO: tworzenie wspólnego obiektu
-                            },
+                            source = Types.Source_PNID,
+                            type = ilr.Attribute("type")?.Value,
+                            Value = ilr.FirstNode.ToString()
+                        }));
+                    }
+                    var xElementsLiteral = element?.Descendants(Nodes.Literal);
+                    if (xElementsLiteral == null) continue;
+                    foreach (var literal in xElementsLiteral)
+                    {
+                        var searchingWord = literal.FirstNode.ToString();
 
-                        }).ToList();
+                        List<string> numbers = SearchNumberBasedOnWord(bDoc, searchingWord);
+                        if (numbers.Count > 0)
+                        {
+                            var theSameWord =
+                                bDoc.Descendants(Nodes.Literal).Where(x => x.FirstNode.ToString() == searchingWord);
+                            idPlwn = numbers.FirstOrDefault();
+                            sensePlwn = theSameWord.Descendants(Nodes.Sense).First().Value;
+                        }
+                        string sensePn = literal.Attribute("sense")?.Value;
+                        literals.Add(new Literal() { plwnsense = sensePlwn, pnsense = sensePn, Value = searchingWord });
+                    }
+                    synsets.Add(
+                        new Synset
+                        {
+                            ID = new ID() { plwn = idPlwn, pn = idPn, Value = value },
+                            ILR = irlList.ToArray(),
+                            SYNONYM = literals.ToArray()
+                        });
+                }
+                xml.SYNSET = synsets.ToArray();
+                CreateFile(xml);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Messages.ErrorFound + ex.Message);
+            }
+            finally
+            {
+                try
+                {
 
-            CreateFile(xml);
+                    File.WriteAllLines(@"C:\t\notFoundWords.txt", notFoundWords);
+                    MessageBox.Show("Not found words: " + notFoundWords.Count);
+                    File.WriteAllLines(@"C:\t\notFoundNubers.txt", notFoundNumbers);
+                    MessageBox.Show("Not found numbers: " + notFoundNumbers.Count);
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Cannot store data in files.");
+                }
+            }
         }
 
         /// <summary>
@@ -60,12 +118,13 @@ namespace Wordnet
                     var slowa = doc.Descendants(Nodes.Synset)
                             .Where(c => c
                             .Descendants(Nodes.Literal).Any(r => r.FirstNode.ToString().Trim() == word));
-
                     var slowo = slowa.Descendants(Nodes.ID);
                     result.AddRange(slowo.Where(element => !element.IsEmpty).Select(element => element.FirstNode.ToString()));
                 }
                 if (result.Count == 0)
-                { MessageBox.Show(Messages.NoNumberFound); }
+                {
+                    notFoundWords.Add(search);
+                }
                 return result;
             }
             catch (Exception ex)
@@ -74,6 +133,7 @@ namespace Wordnet
                 return null;
             }
         }
+
         public static Dictionary<string, string> SearchWordBasedOnNumber(XContainer doc, string search)
         {
             try
@@ -87,7 +147,6 @@ namespace Wordnet
                 else
                 {
                     var slowa = doc.Descendants(Nodes.ID).FirstOrDefault(x => x.Value.Equals(number));
-
                     if (slowa?.Parent != null)
                     {
                         var slowo = slowa.Parent.Descendants(Nodes.Literal);

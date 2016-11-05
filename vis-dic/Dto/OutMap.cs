@@ -16,6 +16,7 @@ namespace Wordnet.Dto
     public class Synset
     {
         /// <remarks/>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public ID ID { get; set; }
 
         /// <remarks/>
@@ -50,7 +51,7 @@ namespace Wordnet.Dto
     {
         /// <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
-        public byte plwnsense { get; set; }
+        public string plwnsense { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlIgnore()]
@@ -58,7 +59,7 @@ namespace Wordnet.Dto
 
         /// <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
-        public byte pnsense { get; set; }
+        public string pnsense { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlText()]

@@ -1,4 +1,6 @@
-﻿namespace Wordnet
+﻿// ReSharper disable InconsistentNaming
+// ReSharper disable UnusedMember.Local
+namespace Wordnet
 {
     static class Nodes
     {
@@ -51,6 +53,6 @@
 
     public static class Paths
     {
-        public const string DefaultOutputPath = "C:\\Temp\\mergedWordnet.xml";
+        public const string DefaultOutputPath = @"C:\t\mergedWordnet.xml";
     }
 }
