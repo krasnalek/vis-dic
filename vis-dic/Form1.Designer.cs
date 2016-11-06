@@ -52,7 +52,7 @@ namespace Wordnet
             this.btnDirectory1.Name = "btnDirectory1";
             this.btnDirectory1.Size = new System.Drawing.Size(164, 48);
             this.btnDirectory1.TabIndex = 0;
-            this.btnDirectory1.Text = "Choose 1st file";
+            this.btnDirectory1.Text = "Choose file (1)";
             this.btnDirectory1.UseVisualStyleBackColor = true;
             this.btnDirectory1.Click += new System.EventHandler(this.btnDirectory_Click);
             // 
@@ -119,7 +119,7 @@ namespace Wordnet
             this.btnDirectory2.Name = "btnDirectory2";
             this.btnDirectory2.Size = new System.Drawing.Size(164, 48);
             this.btnDirectory2.TabIndex = 6;
-            this.btnDirectory2.Text = "Choose second file";
+            this.btnDirectory2.Text = "Choose file (2)";
             this.btnDirectory2.UseVisualStyleBackColor = true;
             this.btnDirectory2.Click += new System.EventHandler(this.btnDirectory2_Click);
             // 
