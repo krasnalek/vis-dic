@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using Wordnet.Dto;
 
@@ -49,25 +50,24 @@ namespace Wordnet
                         List<string> numbers = SearchNumberBasedOnWord(bDoc, searchingWord);
                         if (numbers.Count > 0)
                         {
-                            var theSameWord =
-                                bDoc.Descendants(Nodes.Literal).Where(x => x.FirstNode.ToString() == searchingWord);
+                            List<XElement> theSameWord =
+                                bDoc.Descendants(Nodes.Literal).Where(x => x.FirstNode.ToString() == searchingWord).ToList();
                             idPlwn = numbers.FirstOrDefault();
-                            sensePlwn = theSameWord.Descendants(Nodes.Sense).First().Value;
+                            sensePlwn = theSameWord.Descendants(Nodes.Sense)?.First().Value;
                             //TODO: Adding ILRNodes from PlWordnet
-                            //var xElementsIlrPlwn = bDoc.Root(synset)
-
-                            //if (xElementsIlrPlwn != null)
-                            //{
-                            //    irlList.AddRange(xElementsIlr.Select(ilr => new ILR()
-                            //    {
-                            //        source = Types.Source_PLWNID,
-                            //        type = ilr.Descendants(Nodes.ILRType).First().Value,
-                            //        Value = ilr.FirstNode.ToString()
-                            //    }));
-                            //}
+                            var xElementsIlrPlwn = theSameWord.Ancestors(Nodes.Synset)?.Descendants(Nodes.ILR);
+                            if (xElementsIlrPlwn != null)
+                            {
+                                irlList.AddRange(xElementsIlrPlwn.Select(ilr => new ILR()
+                                {
+                                    source = Types.Source_PLWNID,
+                                    type = ilr.Descendants(Nodes.ILRType).First().Value,
+                                    Value = ilr.FirstNode.ToString()
+                                }));
+                            }
                         }
                         string sensePn = literal.Attribute("sense")?.Value;
-                        literals.Add(new Literal() { plwnsense = sensePlwn, pnsense = sensePn, Value = searchingWord });
+                        literals.Add(new Literal() { plwnsense = sensePlwn, plwnsenseSpecified = !string.IsNullOrEmpty(sensePlwn), pnsense = sensePn, Value = searchingWord });
                     }
                     synsets.Add(
                         new Synset
