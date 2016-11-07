@@ -1,4 +1,7 @@
 ﻿// ReSharper disable InconsistentNaming
+
+using System.Diagnostics.Contracts;
+
 namespace Wordnet.Dto
 {
     /// <remarks/>
@@ -32,14 +35,34 @@ namespace Wordnet.Dto
     [System.Xml.Serialization.XmlType(AnonymousType = true)]
     public class ID
     {
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttribute()]
-        public string plwn { get; set; }
+        public PlWN[] PlWN { get; set; }
+
+        public PN[] PN { get; set; }
+
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlAttribute()]
+        //public string plwn { get; set; }
+
+        ///// <remarks/>
+        //[System.Xml.Serialization.XmlAttribute()]
+        //public string pn { get; set; }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttribute()]
-        public string pn { get; set; }
+        [System.Xml.Serialization.XmlText()]
+        public string Value { get; set; }
+    }
 
+    [System.Xml.Serialization.XmlType(AnonymousType = true)]
+    public class PlWN
+    {
+        /// <remarks/>
+        [System.Xml.Serialization.XmlText()]
+        public string Value { get; set; }
+    }
+
+    [System.Xml.Serialization.XmlType(AnonymousType = true)]
+    public class PN
+    {
         /// <remarks/>
         [System.Xml.Serialization.XmlText()]
         public string Value { get; set; }
@@ -77,6 +100,10 @@ namespace Wordnet.Dto
         /// <remarks/>
         [System.Xml.Serialization.XmlAttribute()]
         public string source { get; set; }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttribute()]
+        public string merged { get; set; }
 
         /// <remarks/>
         [System.Xml.Serialization.XmlText()]
